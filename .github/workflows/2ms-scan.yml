@@ -1,5 +1,8 @@
 name: 2ms Scan
 on:
+  pull_request:
+  push:
+    branches: [master]
   workflow_dispatch:
 
 permissions:
