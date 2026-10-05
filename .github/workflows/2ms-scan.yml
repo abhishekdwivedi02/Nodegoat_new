@@ -3,14 +3,12 @@ on:
   workflow_dispatch:
 
 permissions:
+  contents: read
   security-events: write
 
 jobs:
   scan:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      security-events: write
     steps:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
         with:
@@ -22,7 +20,6 @@ jobs:
             --report-path /repo/artifacts/2ms.sarif \
             --ignore-on-exit results
       - name: Normalize SARIF locations
-        # 2ms git locations are commands, not URIs; retain the commit in the message.
         run: |
           jq '.runs[].results[]? |= (
                 (.locations[0].physicalLocation.artifactLocation.uri // "") as $uri
